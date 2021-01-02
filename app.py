@@ -40,7 +40,7 @@ def welcome():
         f"/api/v1.0/temp/start/end")
     return (test)
 
-#Find precipitation route
+#Create precipitation route
 @app.route("/api/v1.0/precipitation")
 def precipitation():
     """Return the precipitation data for the last year"""
@@ -54,3 +54,13 @@ def precipitation():
     # Dict with date as the key and prcp as the value
     precip = {date: prcp for date, prcp in precipitation}
     return jsonify(precip)
+
+#Create stations route
+@app.route("/api/v1.0/stations")
+def stations():
+    """Return a list of stations."""
+    results = session.query(Station.station).all()
+
+    # Unravel results into a 1D array and convert to a list
+    stations = list(np.ravel(results))
+    return jsonify(stations=stations)
